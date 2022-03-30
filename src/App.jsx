@@ -46,10 +46,15 @@ const App = () => {
 
     const textColor = isDark ? 'white' : 'black';
 
-    const RandomEmoji = () => {
-        emojis.sort(() => Math.random() - 0.5);
-        return emojis[0];
+    const randomObject = (obj) => {
+        const keys = Object.keys(obj);
+        const randomIndex = Math.floor(Math.random() * keys.length);
+        return obj[keys[randomIndex]];
     };
+
+    const convertedEmoji = String.fromCodePoint(
+        '0x' + randomObject(emojis).unicode
+    );
 
     return (
         <div
@@ -61,10 +66,7 @@ const App = () => {
         >
             <div className='frontpage'>
                 <div>
-                    <h1>
-                        Edvard Høiby
-                        <RandomEmoji />
-                    </h1>
+                    <h1>Edvard Høiby{convertedEmoji}</h1>
                     <p>
                         Jeg er en 17 år gammel gutt. Jeg er arbeidsom,
                         ambisiøs og sosial. Jeg tar yrkesfaglig
