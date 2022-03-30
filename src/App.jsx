@@ -6,19 +6,65 @@ import JSConfetti from 'js-confetti';
 import DynamicButton from './components/DynamicButton';
 import Selfie from './assets/13549549_399738896863242_2023945710_n.jpg';
 
-function App() {
+import emojis from './data/emojis.json';
+
+const App = () => {
+    const makeManyConfetties = new JSConfetti();
+
+    const randomBackgroundColor = () => {
+        const r = Math.floor(Math.random() * 256);
+        const g = Math.floor(Math.random() * 256);
+        const b = Math.floor(Math.random() * 256);
+        return { r, g, b, color: `rgb(${r}, ${g}, ${b})` };
+    };
+
     const [secondButton, setSecondButton] = useState(
         JSON.parse(localStorage.getItem('secondButton')) || false
     );
-    localStorage.setItem('secondButton', secondButton);
 
-    const makeManyConfetties = new JSConfetti();
+    localStorage.setItem('secondButton', secondButton);
+    const [backgroundColor, setBackgroundColor] = useState(
+        JSON.parse(localStorage.getItem('backgroundColor')) ||
+            randomBackgroundColor()
+    );
+
+    localStorage.setItem(
+        'backgroundColor',
+        JSON.stringify(backgroundColor)
+    );
+
+    const rgbToBrightness = (r, g, b) => {
+        return (r * 299 + g * 587 + b * 114) / 1000;
+    };
+
+    const isDark =
+        rgbToBrightness(
+            backgroundColor.r,
+            backgroundColor.g,
+            backgroundColor.b
+        ) < 128;
+
+    const textColor = isDark ? 'white' : 'black';
+
+    const RandomEmoji = () => {
+        emojis.sort(() => Math.random() - 0.5);
+        return emojis[0];
+    };
 
     return (
-        <div className='App'>
+        <div
+            className='App'
+            style={{
+                backgroundColor: backgroundColor.color,
+                color: textColor,
+            }}
+        >
             <div className='frontpage'>
                 <div>
-                    <h1>Edvard Høiby🔥</h1>
+                    <h1>
+                        Edvard Høiby
+                        <RandomEmoji />
+                    </h1>
                     <p>
                         Jeg er en 17 år gammel gutt. Jeg er arbeidsom,
                         ambisiøs og sosial. Jeg tar yrkesfaglig
@@ -61,6 +107,16 @@ function App() {
                         TRYKK MEG🎉
                     </DynamicButton>
                     <DynamicButton
+                        margin='0px 5px 0px 0px'
+                        onClick={() => {
+                            setBackgroundColor(
+                                randomBackgroundColor()
+                            );
+                        }}
+                    >
+                        Bytt bakgrunnsfarge🖥️
+                    </DynamicButton>
+                    <DynamicButton
                         padding='10px 45px'
                         color='#191645'
                         backgroundColor='#FF64B4'
@@ -79,6 +135,6 @@ function App() {
             </div>
         </div>
     );
-}
+};
 
 export default App;
