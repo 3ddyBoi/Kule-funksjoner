@@ -48,13 +48,21 @@ const App = () => {
 
     const randomObject = (obj) => {
         const keys = Object.keys(obj);
-        const randomIndex = Math.floor(Math.random() * keys.length);
+        const randomIndex = Math.round(
+            Math.random() * keys.length - 1
+        );
         return obj[keys[randomIndex]];
     };
 
-    const convertedEmoji = String.fromCodePoint(
-        '0x' + randomObject(emojis).unicode
-    );
+    const convertedEmoji = () => {
+        const unicodeYEP = randomObject(emojis).unicode;
+        return {
+            Emoji: String.fromCodePoint('0x' + unicodeYEP),
+            unicode: unicodeYEP,
+        };
+    };
+
+    console.log(convertedEmoji());
 
     return (
         <div
@@ -66,7 +74,7 @@ const App = () => {
         >
             <div className='frontpage'>
                 <div>
-                    <h1>Edvard Høiby{convertedEmoji}</h1>
+                    <h1>Edvard Høiby</h1>
                     <p>
                         Jeg er en 17 år gammel gutt. Jeg er arbeidsom,
                         ambisiøs og sosial. Jeg tar yrkesfaglig
