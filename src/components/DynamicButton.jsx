@@ -4,6 +4,7 @@ const DynamicButton = ({
     color = '#ffffff',
     backgroundColor = '#43c6ac',
     borderRadius = '5px',
+    margin = '0px',
     onClick,
 }) => {
     return (
@@ -13,6 +14,7 @@ const DynamicButton = ({
                 color: color,
                 backgroundColor: backgroundColor,
                 borderRadius: borderRadius,
+                margin: margin,
             }}
             onClick={onClick}
         >
